@@ -27,13 +27,9 @@ public class Modelo {
     
     public static void guardarPedido(Pedido pedido){
         
-        if(pedido.getPrecioTotal() == null){
             Date date = new Date();
             pedido.setFecha(date);
-            Generico.guardar(pedido);
-        }else{
-            Generico.guardar(pedido);   
-        }
+            Generico.guardar(pedido);       
     }
     
     public static void guardarPedidoProductos(long idPedido, List<PedidoProductos> prods){
@@ -58,7 +54,7 @@ public class Modelo {
         
         return cargar(getBd().buscaUnico(Administrador.class)
                .where(Administrador.p.nombre.eq(nombre)
-                       .and(Administrador.p.Password.eq(pass))
+                       .and(Administrador.p.password.eq(pass))
                )
        );
     }
@@ -85,5 +81,12 @@ public class Modelo {
         return cargar(getBd().buscaListado(PedidoProductos.class)
                 .where(PedidoProductos.p.idPedido.eq(idPedido))
         );         
+    }
+    
+    public static Producto buscarProducto(long idProducto){
+        
+        return cargar(getBd().buscaUnico(Producto.class)
+               .where(Producto.p.id.eq(idProducto))
+       );
     }
 }

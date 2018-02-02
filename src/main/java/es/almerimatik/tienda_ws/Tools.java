@@ -26,7 +26,7 @@ public class Tools {
         
         for(PedidoProductos reg : productos){
             
-            Producto prod = reg.getProducto();
+            Producto prod = Modelo.buscarProducto(reg.getIdProducto());
             unds = reg.getUnidades();
             precio = prod.getPrecio();
             total+= unds * precio;

@@ -158,13 +158,13 @@ public class XML {
             
             producto = "<producto "
                             + "nombre=\'"+nombre+"\' "
-                            + "marca=\'"+marca+"\'"
+                            + "marca=\'"+marca+"\' "
                             + "formato=\'"+formato+"\' "
                             + "precio=\'"+precio+"\' "
                             + "foto=\'"+foto+"\' "
                             + "cat=\'"+cat+"\' "
                             + "sub=\'"+sub+"\' "
-                            + "unds|'"+unds+"\' "
+                            + "unds=\'"+unds+"\' "
                         +"/>"; 
             xml+=producto;
         }

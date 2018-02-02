@@ -12,6 +12,7 @@ import javax.jws.WebParam;
 import org.dipalme.policia.bd.tienda.Pedido;
 import org.dipalme.policia.bd.tienda.PedidoProductos;
 import org.dipalme.policia.bd.tienda.Usuario;
+import org.dipalme.policia.bd.tienda.UsuarioProductos;
 import org.dipalme.policia.webbackend.servicios.Generico;
 import org.w3c.dom.Document;
 
@@ -40,13 +41,14 @@ public class ServicioTienda {
         
        Document doc = XML.getDocumento(xmlPedido);
        
+       System.out.println(xmlPedido);
+       
        List<PedidoProductos> pProductos = XML.getProductos(doc);
        Pedido pedido = XML.getPedido(doc);
-       Modelo.guardarPedido(pedido);
-       Modelo.guardarPedidoProductos(pedido.getId(), pProductos);
        float total = Tools.calcularTotal(pProductos);
        pedido.setPrecioTotal(total);
        Modelo.guardarPedido(pedido);
+       Modelo.guardarPedidoProductos(pedido.getId(), pProductos);
        actualizarHistorial(pedido,pProductos);
     }
     
@@ -107,11 +109,15 @@ public class ServicioTienda {
         
         long idUsuario = pedido.getIdUsuario();
         List<Long> idsProductoHistorial = Modelo.buscarProductosHistorial(idUsuario);
+        UsuarioProductos uProducto;
         
         for(PedidoProductos reg : pProductos){
             
             if(!idsProductoHistorial.contains(reg.getIdProducto())){
-                Generico.guardar(reg);
+                uProducto = new UsuarioProductos();
+                uProducto.setIdUsuario(idUsuario);
+                uProducto.setIdProducto(reg.getIdProducto());
+                Generico.guardar(uProducto);
             }
         }
     }
