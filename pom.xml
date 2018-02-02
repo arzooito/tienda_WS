@@ -36,7 +36,7 @@
         </dependency>
         <dependency>
             <groupId>org.diputacion.policia</groupId>
-            <artifactId>policia-traffik-backend</artifactId>
+            <artifactId>pedidosTienda-backend</artifactId>
             <version>1.8-SNAPSHOT</version>
             <type>jar</type>
         </dependency>
