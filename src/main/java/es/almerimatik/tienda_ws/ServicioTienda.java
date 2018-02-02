@@ -9,7 +9,6 @@ import java.util.List;
 import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
-import org.dipalme.policia.bd.tienda.Administrador;
 import org.dipalme.policia.bd.tienda.Pedido;
 import org.dipalme.policia.bd.tienda.PedidoProductos;
 import org.dipalme.policia.bd.tienda.Usuario;
