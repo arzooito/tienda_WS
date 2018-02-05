@@ -6,7 +6,6 @@
 package es.almerimatik.tienda_ws;
 
 import java.util.List;
-import javax.jws.WebParam;
 import org.dipalme.policia.bd.tienda.Administrador;
 import org.dipalme.policia.bd.tienda.PedidoProductos;
 import org.dipalme.policia.bd.tienda.Producto;

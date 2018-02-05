@@ -160,7 +160,7 @@ public class XML {
                             + "nombre=\'"+nombre+"\' "
                             + "marca=\'"+marca+"\' "
                             + "formato=\'"+formato+"\' "
-                            + "precio=\'"+precio+"\' "
+                            + "precio=\'"+precio.replace(",", ".")+"\' "
                             + "foto=\'"+foto+"\' "
                             + "cat=\'"+cat+"\' "
                             + "sub=\'"+sub+"\' "
