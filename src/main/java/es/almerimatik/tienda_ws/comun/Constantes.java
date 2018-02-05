@@ -24,7 +24,7 @@ public class Constantes {
     
     public static void init() throws IOException {
         
-        //cargarPropiedades();
+        cargarPropiedades();
         Generico.setConfigFile(Thread.currentThread().getContextClassLoader().getResource("hibernateTienda.cfg.xml"));
     }
     
