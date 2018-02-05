@@ -96,6 +96,14 @@ public class ServicioTienda {
         Generico.guardar(user);
     }
     
+    @WebMethod(operationName = "finalizarPedido")
+    public void finalizarPedido(@WebParam(name = "nombre") String usuario, @WebParam(name = "password")String password, @WebParam(name = "idPedido")long idPedido) {
+        
+       if( Tools.isAdmin(usuario, password)){
+           Modelo.finalizarPedido(idPedido);
+       }
+    }
+    
     
     /*
     ============================================================================

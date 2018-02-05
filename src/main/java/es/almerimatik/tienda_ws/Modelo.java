@@ -89,4 +89,13 @@ public class Modelo {
                .where(Producto.p.id.eq(idProducto))
        );
     }
+    
+    public static void finalizarPedido(long idPedido){
+        
+        Pedido pedido = cargar(getBd().buscaUnico(Pedido.class)
+               .where(Pedido.p.id.eq(idPedido)));
+        
+        pedido.setFinalizado(new Date());
+        Generico.guardar(pedido);
+    }
 }
