@@ -20,6 +20,7 @@ import org.dipalme.policia.webbackend.servicios.Generico;
  */
 public class Constantes {
     
+    private static String rutaBase;
     
     public static void init() throws IOException {
         
@@ -42,9 +43,19 @@ public class Constantes {
         }
         
         //Añadir aqui las propiedades a cargar.
-        
+        rutaBase = prop.getProperty("rutaBase");
         
         System.out.println("Propiedades cargadas con exito");
         prop.clear();
     }
+
+    public static String getRutaBase() {
+        return rutaBase;
+    }
+
+    public static void setRutaBase(String rutaBase) {
+        Constantes.rutaBase = rutaBase;
+    }
+    
+    
 }

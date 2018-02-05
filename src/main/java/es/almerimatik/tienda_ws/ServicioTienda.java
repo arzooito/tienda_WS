@@ -5,7 +5,14 @@
  */
 package es.almerimatik.tienda_ws;
 
+import es.almerimatik.tienda_ws.comun.Constantes;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
@@ -104,6 +111,18 @@ public class ServicioTienda {
        }
     }
     
+    @WebMethod(operationName = "getFoto")
+    public byte[] getFoto(@WebParam(name = "ruta") String ruta) { 
+        
+        byte[] foto = null;
+        try {
+            foto = recuperarRecurso(Constantes.getRutaBase() + ruta);
+        } catch (IOException ex) {
+            Logger.getLogger(ServicioTienda.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return foto;
+    }
     
     /*
     ============================================================================
@@ -128,5 +147,16 @@ public class ServicioTienda {
                 Generico.guardar(uProducto);
             }
         }
+    }
+    
+    private byte[] recuperarRecurso(String ruta) throws FileNotFoundException, IOException{
+        
+        File recurso = new File(ruta);
+        byte[] data = new byte[(int)recurso.length()];
+        FileInputStream fis = new FileInputStream(recurso);
+        fis.read(data);
+        fis.close();
+        
+        return data;
     }
 }
