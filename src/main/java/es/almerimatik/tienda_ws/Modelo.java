@@ -5,14 +5,15 @@
  */
 package es.almerimatik.tienda_ws;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.dipalme.policia.bd.tienda.Administrador;
 import org.dipalme.policia.bd.tienda.Categoria;
+import org.dipalme.policia.bd.tienda.Marca;
 import org.dipalme.policia.bd.tienda.Pedido;
 import org.dipalme.policia.bd.tienda.PedidoProductos;
 import org.dipalme.policia.bd.tienda.Producto;
+import org.dipalme.policia.bd.tienda.Subcategoria;
 import org.dipalme.policia.bd.tienda.Usuario;
 import org.dipalme.policia.bd.tienda.UsuarioProductos;
 import org.dipalme.policia.webbackend.servicios.Generico;
@@ -40,9 +41,6 @@ public class Modelo {
         }
     }
     
-    
-    
-    
     public static List<Long> buscarProductosHistorial(long idUsuario){
                
         return cargar(getBd().buscaListado(UsuarioProductos.p.idProducto)
@@ -67,7 +65,6 @@ public class Modelo {
                )
        );
     }
-    
     
     public static List<Pedido> buscarPedidosPendientes(){
                
@@ -97,5 +94,27 @@ public class Modelo {
         
         pedido.setFinalizado(new Date());
         Generico.guardar(pedido);
+    }
+    
+    public static List<Marca> buscarListaMarcas(){
+        
+        return cargar(getBd().buscaListado(Marca.class));
+    }
+    
+    public static List<Categoria> buscarListaCategorias(){
+        
+        return cargar(getBd().buscaListado(Categoria.class));
+    }
+    
+    public static List<Subcategoria> buscarListaSubcategorias(){
+        
+        return cargar(getBd().buscaListado(Subcategoria.class));
+    }
+    
+    public static List<Producto> buscarListaProductosActualizar(Date ultimaActualizacion){
+        
+        return cargar(getBd().buscaListado(Producto.class)
+                .where(Producto.p.actualizado.gt(ultimaActualizacion))
+        );
     }
 }

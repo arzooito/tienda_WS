@@ -6,8 +6,10 @@
 package es.almerimatik.tienda_ws;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.dipalme.policia.bd.tienda.Categoria;
+import org.dipalme.policia.bd.tienda.Marca;
 import org.dipalme.policia.bd.tienda.Pedido;
 import org.dipalme.policia.bd.tienda.PedidoProductos;
 import org.dipalme.policia.bd.tienda.Producto;
@@ -170,5 +172,101 @@ public class XML {
         }
         
         return xml;
-    }           
+    } 
+    
+    public static String construirMarcas(){
+        
+        List<Marca> marcas = Modelo.buscarListaMarcas();
+        String xml = "<marcas>";
+        String marc;
+        for(Marca reg : marcas){
+
+            String id = String.format("%d", reg.getId());
+            String nombre = reg.getNombre();
+
+            marc = "<marca "
+                    + "id=\'"+id+"\' "
+                    + "nombre=\'"+nombre+"\'"
+                    +"/>";
+          xml+=marc;
+        }
+        xml+="</marcas>";    
+        
+        return xml;
+    }
+    
+    public static String construirCategorias(){
+        
+        List<Categoria> categorias = Modelo.buscarListaCategorias();
+        String xml = "<categorias>";
+        String categoria;
+        for(Categoria reg : categorias){
+
+            String id = String.format("%d", reg.getId());
+            String nombre = reg.getNombre();
+
+            categoria = "<categoria "
+                    + "id=\'"+id+"\' "
+                    + "nombre=\'"+nombre+"\'"
+                    +"/>";
+          xml+=categoria;
+        }
+        xml+="</categorias>";    
+        
+        return xml;
+    }
+    
+    public static String construirSubcategorias(){
+        
+        List<Subcategoria> subcategorias = Modelo.buscarListaSubcategorias();
+        String xml = "<subcategorias>";
+        String subcategoria;
+        for(Subcategoria reg : subcategorias){
+
+            String id = String.format("%d", reg.getId());
+            String nombre = reg.getNombre();
+            String idCategoria = String.format("%d", reg.getIdCategoria());
+
+            subcategoria = "<subcategoria "
+                    + "id=\'"+id+"\' "
+                    + "nombre=\'"+nombre+"\' "
+                    + "idCategoria=\'"+idCategoria+"\'"
+                    +"/>";
+          xml+=subcategoria;
+        }
+        xml+="</subcategorias>";    
+        
+        return xml;
+    }
+    
+    public static String construirProductosActualizar(Date ultimaActualizacion){
+        
+        List<Producto> productos = Modelo.buscarListaProductosActualizar(ultimaActualizacion);
+        String xml = "<productos>";
+        String producto;
+        for(Producto reg : productos){
+
+            String id = String.format("%d", reg.getId());
+            String nombre = reg.getNombre();
+            String formato = reg.getFormato();
+            String precio = String.format("%.2f", reg.getId()).replace(",", ".");
+            String foto = reg.getFoto();
+            String idMarca = String.format("%d", reg.getIdMarca());
+            String idSubcategoria = String.format("%d", reg.getIdSubcategoria());
+
+            producto = "<producto "
+                    + "id=\'"+id+"\' "
+                    + "nombre=\'"+nombre+"\' "
+                    + "formato=\'"+formato+"\' "
+                    + "precio=\'"+precio+"\' "
+                    + "foto=\'"+foto+"\' "
+                    + "idMarca=\'"+idMarca+"\' "
+                    + "idSubcategoria=\'"+idSubcategoria+"\'"
+                    +"/>";
+          xml+=producto;
+        }
+        xml+="</productoss>";    
+        
+        return xml;
+    } 
 }
