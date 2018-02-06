@@ -29,9 +29,7 @@ import org.w3c.dom.Document;
  */
 @WebService(serviceName = "ServicioTienda")
 public class ServicioTienda {
-
-    
-    
+   
     /*
     ============================================================================
     ============================================================================
@@ -40,25 +38,12 @@ public class ServicioTienda {
     ============================================================================
     */
     
-    /**
-     * This is a sample web service operation
-     */
-    @WebMethod(operationName = "guardarPedido")
-    public void guardarPedido(@WebParam(name = "pedido") String xmlPedido) {
+    @WebMethod(operationName = "loginAdmin")
+    public boolean loginAdmin(@WebParam(name = "nombre") String usuario, @WebParam(name = "password")String password) {
         
-       Document doc = XML.getDocumento(xmlPedido);
-       
-       System.out.println(xmlPedido);
-       
-       List<PedidoProductos> pProductos = XML.getProductos(doc);
-       Pedido pedido = XML.getPedido(doc);
-       float total = Tools.calcularTotal(pProductos);
-       pedido.setPrecioTotal(total);
-       Modelo.guardarPedido(pedido);
-       Modelo.guardarPedidoProductos(pedido.getId(), pProductos);
-       actualizarHistorial(pedido,pProductos);
+       return Tools.isAdmin(usuario, password);
     }
-    
+       
     @WebMethod(operationName = "cargarPedidos")
     public String cargarPedidos(@WebParam(name = "nombre") String usuario, @WebParam(name = "password")String password) {
         
@@ -68,41 +53,7 @@ public class ServicioTienda {
         }
         return xml;
     }
-    
-    @WebMethod(operationName = "actualizar")
-    public void actualizar(@WebParam(name = "fecha") String fecha) {
-        
-           
-    }
-    
-    @WebMethod(operationName = "loginAdmin")
-    public boolean loginAdmin(@WebParam(name = "nombre") String usuario, @WebParam(name = "password")String password) {
-        
-       return Tools.isAdmin(usuario, password);
-    }
-    
-    @WebMethod(operationName = "login")
-    public boolean login(@WebParam(name = "nombre") String usuario, @WebParam(name = "password")String password) {
-        
-       return Tools.isUser(usuario, password);
-    }
-    
-    @WebMethod(operationName = "registrarUsuario")
-    public void registrarUsuario(
-            @WebParam(name = "nombre") String nombre, 
-            @WebParam(name = "password")String password,
-            @WebParam(name = "mail") String mail,
-            @WebParam(name = "telefono") String telefono) {
-        
-        Usuario user = new Usuario();
-        user.setNombre(nombre);
-        user.setPassword(password);
-        user.setEmail(mail);
-        user.setTelefono(telefono);
-        
-        Generico.guardar(user);
-    }
-    
+      
     @WebMethod(operationName = "finalizarPedido")
     public void finalizarPedido(@WebParam(name = "nombre") String usuario, @WebParam(name = "password")String password, @WebParam(name = "idPedido")long idPedido) {
         
@@ -129,25 +80,6 @@ public class ServicioTienda {
     ============================================================================
     ============================================================================
     */
-    
-    
-    
-    private static void actualizarHistorial(Pedido pedido,List<PedidoProductos> pProductos){
-        
-        long idUsuario = pedido.getIdUsuario();
-        List<Long> idsProductoHistorial = Modelo.buscarProductosHistorial(idUsuario);
-        UsuarioProductos uProducto;
-        
-        for(PedidoProductos reg : pProductos){
-            
-            if(!idsProductoHistorial.contains(reg.getIdProducto())){
-                uProducto = new UsuarioProductos();
-                uProducto.setIdUsuario(idUsuario);
-                uProducto.setIdProducto(reg.getIdProducto());
-                Generico.guardar(uProducto);
-            }
-        }
-    }
     
     private byte[] recuperarRecurso(String ruta) throws FileNotFoundException, IOException{
         

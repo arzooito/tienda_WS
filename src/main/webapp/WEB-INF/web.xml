@@ -11,9 +11,18 @@
         <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
+    <servlet>
+        <servlet-name>ServicioAppTienda</servlet-name>
+        <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ServicioTienda</servlet-name>
         <url-pattern>/ServicioTienda</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServicioAppTienda</servlet-name>
+        <url-pattern>/ServicioAppTienda</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
