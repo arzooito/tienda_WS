@@ -63,8 +63,9 @@ public class ServicioAppTienda {
     
     
     @WebMethod(operationName = "guardarPedido")
-    public void guardarPedido(@WebParam(name = "pedido") String xmlPedido) {
-        
+    public boolean guardarPedido(@WebParam(name = "pedido") String xmlPedido) {
+       
+       boolean guardado = false;
        Document doc = XML.getDocumento(xmlPedido);
        
        System.out.println(xmlPedido);
@@ -73,9 +74,17 @@ public class ServicioAppTienda {
        Pedido pedido = XML.getPedido(doc);
        float total = Tools.calcularTotal(pProductos);
        pedido.setPrecioTotal(total);
-       Modelo.guardarPedido(pedido);
-       Modelo.guardarPedidoProductos(pedido.getId(), pProductos);
-       actualizarHistorial(pedido,pProductos);
+       Generico.beginTransaction();
+       try{
+            Modelo.guardarPedido(pedido);
+            Modelo.guardarPedidoProductos(pedido.getId(), pProductos);
+            actualizarHistorial(pedido,pProductos);
+            Generico.commit();
+            guardado = true;
+       }catch(Exception e){
+            Generico.rollback();
+       }
+       return guardado;
     }
     
     
