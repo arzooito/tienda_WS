@@ -33,14 +33,20 @@ public class ServicioAppTienda {
 */
     
     @WebMethod(operationName = "login")
-    public boolean login(@WebParam(name = "nombre") String usuario, @WebParam(name = "password")String password) {
-        
-       return Tools.isUser(usuario, password);
+    public long login(@WebParam(name = "nombre") String usuario, @WebParam(name = "password")String password) {
+       
+        Usuario user = Modelo.cargarUsuario(usuario, password);
+        if(user != null){
+            return user.getId();
+        }
+        else{
+            return -1l;
+        }
     }
     
     
     @WebMethod(operationName = "registrarUsuario")
-    public boolean registrarUsuario(
+    public long registrarUsuario(
             @WebParam(name = "nombre") String nombre, 
             @WebParam(name = "password")String password,
             @WebParam(name = "mail") String mail,
@@ -56,9 +62,10 @@ public class ServicioAppTienda {
             
             Generico.guardar(user);
 
-            return true;  
+            return user.getId();  
         }
-        return false;
+        
+        return -1l;
     }
     
     
