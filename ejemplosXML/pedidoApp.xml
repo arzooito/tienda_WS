@@ -1,4 +1,4 @@
-<pedido fechaRecogida="2018-02-02" horaRecogida="21:00:00" idUsuario="3">
+<pedido fechaRecogida="02-02-2018" horaRecogida="21:00:00" idUsuario="3">
 	<producto id="4" unidades="3"/>
 	<producto id="8" unidades="6"/>
 	<producto id="20" unidades="1"/>

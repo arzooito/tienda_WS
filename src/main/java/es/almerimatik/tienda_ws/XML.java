@@ -239,10 +239,9 @@ public class XML {
         return xml;
     }
     
-    public static String construirProductosActualizar(Date ultimaActualizacion){
+    public static String construirProductosEntran(List<Producto> productos){
         
-        List<Producto> productos = Modelo.buscarListaProductosActualizar(ultimaActualizacion);
-        String xml = "<productos>";
+        String xml = "<entran>";
         String producto;
         for(Producto reg : productos){
 
@@ -263,10 +262,63 @@ public class XML {
                     + "idMarca=\'"+idMarca+"\' "
                     + "idSubcategoria=\'"+idSubcategoria+"\'"
                     +"/>";
-          xml+=producto;
+            xml+=producto;
         }
-        xml+="</productoss>";    
+        xml+="</entran>";    
         
         return xml;
     } 
+    
+    public static String construirProductosSalen(List<Producto> productos){
+        
+        String xml = "<salen>";
+        String producto;
+        for(Producto reg : productos){
+
+            String id = String.format("%d", reg.getId());
+            producto = "<producto "
+                    + "id=\'"+id+"\' "
+                    +"/>";
+            xml+=producto;
+        }
+        xml+="</salen>";    
+        
+        return xml;
+    }
+    
+    public static String construirProductosActualizar(List<Producto> entran, List<Producto> salen){
+        
+        String xml = "<productos>";
+        
+        if(!entran.isEmpty()){
+             xml+= construirProductosEntran(entran);
+        }
+       
+        
+        if(!salen.isEmpty()){
+            xml+= construirProductosSalen(salen);
+        }
+             
+        xml+="</productos>";    
+        
+        return xml;
+    }
+    
+    public static String construirActualizacion(List<Producto> entran, List<Producto> salen){
+        
+        String xml = "<actualizacion>";
+        
+        if(!entran.isEmpty()){
+            xml+= construirMarcas();
+            xml+= construirCategorias();
+            xml+= construirSubcategorias();
+        }
+        
+        xml+= construirProductosActualizar(entran, salen);
+        
+        xml+="</actualizacion>";    
+        
+        return xml;
+    }
+    
 }

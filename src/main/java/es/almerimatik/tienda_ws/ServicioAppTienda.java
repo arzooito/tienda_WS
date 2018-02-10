@@ -5,14 +5,17 @@
  */
 package es.almerimatik.tienda_ws;
 
+import java.util.Date;
 import java.util.List;
 import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import org.dipalme.policia.bd.tienda.Pedido;
 import org.dipalme.policia.bd.tienda.PedidoProductos;
+import org.dipalme.policia.bd.tienda.Producto;
 import org.dipalme.policia.bd.tienda.Usuario;
 import org.dipalme.policia.bd.tienda.UsuarioProductos;
+import org.dipalme.policia.webbackend.comun.Fechas;
 import org.dipalme.policia.webbackend.servicios.Generico;
 import org.w3c.dom.Document;
 
@@ -95,10 +98,14 @@ public class ServicioAppTienda {
     }
     
     
-    @WebMethod(operationName = "actualizar")
-    public void actualizar(@WebParam(name = "fecha") String fecha) {
+    @WebMethod(operationName = "comprobarActualizacion")
+    public void comprobarActualizacion(@WebParam(name = "registros") int registros,@WebParam(name = "fecha") String fecha) {
         
-           
+        Date date = Fechas.Convertir(fecha);
+        List<Producto> productos = Modelo.buscarListaProductosActualizar(date);
+        int count = Modelo.buscarListaProductos().size();
+        
+        
     }
 /*
     ============================================================================

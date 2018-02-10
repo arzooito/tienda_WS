@@ -111,10 +111,16 @@ public class Modelo {
         return cargar(getBd().buscaListado(Subcategoria.class));
     }
     
+    public static List<Producto> buscarListaProductos(){
+        
+        return cargar(getBd().buscaListado(Producto.class));
+    }
+    
     public static List<Producto> buscarListaProductosActualizar(Date ultimaActualizacion){
         
         return cargar(getBd().buscaListado(Producto.class)
-                .where(Producto.p.actualizado.gt(ultimaActualizacion))
+                .where(Producto.p.actualizado.gt(ultimaActualizacion)
+                .and(Producto.p.activo.eq(true)))
         );
     }
 }
