@@ -5,6 +5,7 @@
  */
 package es.almerimatik.tienda_ws;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.dipalme.policia.bd.tienda.Administrador;
@@ -116,11 +117,54 @@ public class Modelo {
         return cargar(getBd().buscaListado(Producto.class));
     }
     
-    public static List<Producto> buscarListaProductosActualizar(Date ultimaActualizacion){
+    public static List<Producto> buscarListaProductosEntran(Date ultimaActualizacion){
         
         return cargar(getBd().buscaListado(Producto.class)
                 .where(Producto.p.actualizado.gt(ultimaActualizacion)
                 .and(Producto.p.activo.eq(true)))
         );
     }
+    
+    public static List<Producto> buscarListaProductosSalen(Date ultimaActualizacion){
+        
+        return cargar(getBd().buscaListado(Producto.class)
+                .where(Producto.p.actualizado.gt(ultimaActualizacion)
+                .and(Producto.p.activo.eq(false)))
+        );
+    }
+    
+    public static List<Marca> buscarListaMarcasEntran(List<Long> ids){
+        
+        return cargar(getBd().buscaListado(Marca.class)
+                .where(Marca.p.id.in(ids))
+        );
+    }
+    
+    public static List<Categoria> buscarListaCategoriasEntran(List<Long> ids){
+        
+        return cargar(getBd().buscaListado(Categoria.class)
+                .where(Categoria.p.id.in(ids))
+        );
+    }
+    
+    public static List<Subcategoria> buscarListaSubcategoriasEntran(List<Long> ids){
+        
+        return cargar(getBd().buscaListado(Subcategoria.class)
+                .where(Subcategoria.p.id.in(ids))
+        );
+    }
+    
+    public static List<Producto> buscarProductosEliminados(String fecha){
+        
+        String consulta = "select id from ProductosEliminados where fecha > \'"+fecha+"\'";
+        List<Producto> productos = new ArrayList<>();
+        List<Long> ids = cargar(consulta);
+        for(long id : ids){
+            Producto prod = new Producto();
+            prod.setId(id);
+            productos.add(prod);
+        }
+        return productos;
+    }
+    
 }

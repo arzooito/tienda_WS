@@ -98,13 +98,16 @@ public class ServicioAppTienda {
     }
     
     
-    @WebMethod(operationName = "comprobarActualizacion")
-    public void comprobarActualizacion(@WebParam(name = "registros") int registros,@WebParam(name = "fecha") String fecha) {
+    @WebMethod(operationName = "actualizar")
+    public String actualizar(@WebParam(name = "fecha") String fecha) {
         
-        Date date = Fechas.Convertir(fecha);
-        List<Producto> productos = Modelo.buscarListaProductosActualizar(date);
-        int count = Modelo.buscarListaProductos().size();
-        
+        Date ultimaActualizacion = Fechas.Convertir(fecha);
+        List<Producto> entran = Modelo.buscarListaProductosEntran(ultimaActualizacion);
+        List<Producto> salen = Modelo.buscarListaProductosSalen(ultimaActualizacion);
+        List<Producto> eliminados = Modelo.buscarProductosEliminados(fecha);
+        salen.addAll(eliminados);
+        String result = XML.construirActualizacion(entran, salen);
+        return result;
         
     }
 /*

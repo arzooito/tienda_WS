@@ -174,68 +174,90 @@ public class XML {
         return xml;
     } 
     
-    public static String construirMarcas(){
+    
+    ////////////////////////////////////////////////////////////////////////////
+    /////////////////////////     Actualizacion  ///////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
+    
+    public static String construirMarcas(List<Long> ids){
         
-        List<Marca> marcas = Modelo.buscarListaMarcas();
-        String xml = "<marcas>";
-        String marc;
-        for(Marca reg : marcas){
+        List<Marca> marcas = Modelo.buscarListaMarcasEntran(ids);
+                
+        String xml="";
+        
+        if(!marcas.isEmpty()){
+            xml = "<marcas>";
+            String marc;
+            for(Marca reg : marcas){
 
-            String id = String.format("%d", reg.getId());
-            String nombre = reg.getNombre();
+                String id = String.format("%d", reg.getId());
+                String nombre = reg.getNombre();
 
-            marc = "<marca "
-                    + "id=\'"+id+"\' "
-                    + "nombre=\'"+nombre+"\'"
-                    +"/>";
-          xml+=marc;
+                marc = "<marca "
+                        + "id=\'"+id+"\' "
+                        + "nombre=\'"+nombre+"\'"
+                        +"/>";
+              xml+=marc;
+            }
+            xml+="</marcas>";
         }
-        xml+="</marcas>";    
+            
         
         return xml;
     }
     
-    public static String construirCategorias(){
+    public static String construirCategorias(List<Long> ids){
         
-        List<Categoria> categorias = Modelo.buscarListaCategorias();
-        String xml = "<categorias>";
-        String categoria;
-        for(Categoria reg : categorias){
+        List<Categoria> categorias = Modelo.buscarListaCategoriasEntran(ids);
+                
+        String xml = "";
+        
+        if(!categorias.isEmpty()){
+            xml = "<categorias>";
+            String categoria;
+            for(Categoria reg : categorias){
 
-            String id = String.format("%d", reg.getId());
-            String nombre = reg.getNombre();
+                String id = String.format("%d", reg.getId());
+                String nombre = reg.getNombre();
 
-            categoria = "<categoria "
-                    + "id=\'"+id+"\' "
-                    + "nombre=\'"+nombre+"\'"
-                    +"/>";
-          xml+=categoria;
+                categoria = "<categoria "
+                        + "id=\'"+id+"\' "
+                        + "nombre=\'"+nombre+"\'"
+                        +"/>";
+              xml+=categoria;
+            }
+            xml+="</categorias>";
         }
-        xml+="</categorias>";    
+            
         
         return xml;
     }
     
-    public static String construirSubcategorias(){
+    public static String construirSubcategorias(List<Long> ids){
         
-        List<Subcategoria> subcategorias = Modelo.buscarListaSubcategorias();
-        String xml = "<subcategorias>";
-        String subcategoria;
-        for(Subcategoria reg : subcategorias){
+        List<Subcategoria> subcategorias = Modelo.buscarListaSubcategoriasEntran(ids);
+        
+        String xml = "";
+        
+        if(!subcategorias.isEmpty()){
+            xml = "<subcategorias>";
+            String subcategoria;
+            for(Subcategoria reg : subcategorias){
 
-            String id = String.format("%d", reg.getId());
-            String nombre = reg.getNombre();
-            String idCategoria = String.format("%d", reg.getIdCategoria());
+                String id = String.format("%d", reg.getId());
+                String nombre = reg.getNombre();
+                String idCategoria = String.format("%d", reg.getIdCategoria());
 
-            subcategoria = "<subcategoria "
-                    + "id=\'"+id+"\' "
-                    + "nombre=\'"+nombre+"\' "
-                    + "idCategoria=\'"+idCategoria+"\'"
-                    +"/>";
-          xml+=subcategoria;
+                subcategoria = "<subcategoria "
+                        + "id=\'"+id+"\' "
+                        + "nombre=\'"+nombre+"\' "
+                        + "idCategoria=\'"+idCategoria+"\'"
+                        +"/>";
+              xml+=subcategoria;
+            }
+            xml+="</subcategorias>";
         }
-        xml+="</subcategorias>";    
-        
+               
         return xml;
     }
     
@@ -309,9 +331,14 @@ public class XML {
         String xml = "<actualizacion>";
         
         if(!entran.isEmpty()){
-            xml+= construirMarcas();
-            xml+= construirCategorias();
-            xml+= construirSubcategorias();
+            
+            List<Long> idsMarca = idsMarca(entran);
+            List<Long> idsSubcategoria = idsSubcategoria(entran);
+            List<Long> idsCategoria = idsCategoria(entran);
+            
+            xml+= construirMarcas(idsMarca);
+            xml+= construirCategorias(idsCategoria);
+            xml+= construirSubcategorias(idsSubcategoria);
         }
         
         xml+= construirProductosActualizar(entran, salen);
@@ -321,4 +348,27 @@ public class XML {
         return xml;
     }
     
+    private static List<Long> idsMarca(List<Producto> productos){
+        List<Long> ids = new ArrayList<>();       
+        for(Producto reg : productos){
+            ids.add(reg.getIdMarca());
+        }     
+        return ids;
+    }
+    
+    private static List<Long> idsSubcategoria(List<Producto> productos){
+        List<Long> ids = new ArrayList<>();     
+        for(Producto reg : productos){
+            ids.add(reg.getIdSubcategoria());
+        }
+        return ids;
+    }
+    
+    private static List<Long> idsCategoria(List<Producto> productos){
+        List<Long> ids = new ArrayList<>();      
+        for(Producto reg : productos){
+            ids.add(reg.getSubcategoria().getIdCategoria());
+        }
+        return ids;
+    }
 }
