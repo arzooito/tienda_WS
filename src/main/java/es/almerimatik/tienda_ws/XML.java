@@ -270,7 +270,7 @@ public class XML {
             String id = String.format("%d", reg.getId());
             String nombre = reg.getNombre();
             String formato = reg.getFormato();
-            String precio = String.format("%.2f", reg.getId()).replace(",", ".");
+            String precio = String.format("%.2f", reg.getPrecio()).replace(",", ".");
             String foto = reg.getFoto();
             String idMarca = String.format("%d", reg.getIdMarca());
             String idSubcategoria = String.format("%d", reg.getIdSubcategoria());
