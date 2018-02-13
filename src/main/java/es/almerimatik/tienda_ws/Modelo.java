@@ -5,6 +5,7 @@
  */
 package es.almerimatik.tienda_ws;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -158,8 +159,10 @@ public class Modelo {
         
         String consulta = "select id from ProductosEliminados where fecha > \'"+fecha+"\'";
         List<Producto> productos = new ArrayList<>();
-        List<Long> ids = cargar(consulta);
-        for(long id : ids){
+        List<BigInteger> result = cargar(consulta);
+        
+        for(BigInteger reg : result){
+            long id = reg.longValue();
             Producto prod = new Producto();
             prod.setId(id);
             productos.add(prod);
