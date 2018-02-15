@@ -40,6 +40,7 @@ public class ServicioAppTienda {
        
         Usuario user = Modelo.cargarUsuario(usuario, password);
         if(user != null){
+            System.out.println(user.getId());
             return user.getId();
         }
         else{
@@ -65,6 +66,7 @@ public class ServicioAppTienda {
             
             Generico.guardar(user);
 
+            System.out.println(user.getId());
             return user.getId();  
         }
         
@@ -94,6 +96,7 @@ public class ServicioAppTienda {
        }catch(Exception e){
             Generico.rollback();
        }
+       System.out.println(guardado);
        return guardado;
     }
     
@@ -101,12 +104,15 @@ public class ServicioAppTienda {
     @WebMethod(operationName = "actualizar")
     public String actualizar(@WebParam(name = "fecha") String fecha) {
         
-        Date ultimaActualizacion = Fechas.Convertir(fecha);
+        System.out.println("Actualizar parametro =====>\n" + fecha);
+        
+        Date ultimaActualizacion = Fechas.Convertir(fecha, true);
         List<Producto> entran = Modelo.buscarListaProductosEntran(ultimaActualizacion);
         List<Producto> salen = Modelo.buscarListaProductosSalen(ultimaActualizacion);
         List<Producto> eliminados = Modelo.buscarProductosEliminados(fecha);
         salen.addAll(eliminados);
         String result = XML.construirActualizacion(entran, salen);
+        System.out.println("Actualizar RESULT =====>\n" + result);
         return result;
         
     }
